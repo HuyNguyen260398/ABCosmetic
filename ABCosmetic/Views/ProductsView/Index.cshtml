@@ -1,0 +1,100 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ABCosmetic.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/_StaffLayout.cshtml";
+}
+
+<link href="/Content/PagedList.css" rel="stylesheet" />
+
+<h2>Product List</h2>
+<br />
+
+@using (Html.BeginForm("Index", "ProductsView", FormMethod.Get))
+{
+    <b> Search Option: </b>
+    <br />
+    @Html.TextBox("search", "", new { @class = "form-control-sm" })
+    <input type="submit" name="submit" value="Search" class="btn btn-info btn-sm" />
+    <a href="@Url.Action("Index", "ProductsView")" class="btn btn-info btn-sm">Refresh</a>
+}
+<br />
+
+@if (Model.Count() == 0)
+{
+    <h2>Product not found!</h2>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Product", "Index", new
+                {
+                    sort = ViewBag.SortByProduct,
+                    option = Request.QueryString["option"],
+                    search = Request.QueryString["search"]
+                })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Image)
+            </th>
+            <th>
+                @Html.ActionLink("Price", "Index", new
+                {
+                    sort = ViewBag.SortByPrice,
+                    option = Request.QueryString["option"],
+                    search = Request.QueryString["search"]
+                })
+            </th>
+            <th>
+                @Html.ActionLink("Category", "Index", new
+                {
+                    sort = ViewBag.SortByCategory,
+                    option = Request.QueryString["option"],
+                    search = Request.QueryString["search"]
+                })
+            </th>
+            <th>
+                @Html.Action("CartPartial", "Cart")
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Image)" style="width:50px; height:50px"/>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price) $
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @using (Html.BeginForm("AddCart", "Cart", new { @proId = item.ID, @strURL = Request.Url.ToString() }))
+                    {
+                        <input type="submit" value="Add to Cart" class="btn btn-info btn-sm" />
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+
+
+<div>
+    @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new
+    {
+        pageNumber,
+        search = Request.QueryString["search"],
+        sort = Request.QueryString["sort"],
+    }))
+</div>

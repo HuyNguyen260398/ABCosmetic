@@ -1,0 +1,81 @@
+﻿@using ABCosmetic.Models
+@model List<Cart>
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Layout/_StaffLayout.cshtml";
+}
+
+<h2>Cart</h2>
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <td><b>Product ID</b></td>
+            <td><b>Name</b></td>
+            <td><b>Image</b></td>
+            <td><b>Price</b></td>
+            <td><b>Quantity</b></td>
+            <td><b>Subtotal</b></td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductId</td>
+                <td>@item.ProductName</td>
+                <td><img src="@item.ProductImage" style="width:50px; height:50px" /></td>
+                <td>$ @String.Format("{0:0,0}", item.ProductPrice)</td>
+
+                @using (Html.BeginForm("UpdateCart", "Cart", new { @proId = item.ProductId }))
+            {
+                <td>
+                    @Html.TextBox("txtQuantity", item.Quantity)
+                    <input type="submit" value="Update" class="btn btn-xs btn-warning" />
+                </td>
+        }
+                <td>$ @String.Format("{0:0,0}", item.Subtotal)</td>
+                @using (Html.BeginForm("DeleteCart", "Cart", new { @proId = item.ProductId }))
+            {
+                <td><input type="submit" value="Delete" class="btn btn-xs btn-danger" /></td>
+        }
+            </tr>
+    }
+    <tr>
+        <td colspan="5" style="text-align: right">
+            <b>Total Payment:</b>
+        </td>
+        <td colspan="2" style="text-align: left">
+            $ @String.Format("{0:0,0}", Session["Payment"])
+        </td>
+    </tr>
+    <tr style="border-bottom: hidden">
+        <td colspan="7" style="text-align: left">
+            <a href="@Url.Action("OrderPartial", "Cart")" class="btn btn-success btn-sm">Order and Purchase</a>
+            <span>     </span>
+            <a href="@Url.Action("SaveOrder", "Cart")" class="btn btn-success btn-sm">Order and Save</a>
+        </td>
+    </tr>
+}
+else
+{
+    <tr>
+        <td colspan="7" style="text-align: left; color: red">
+            Cart is empty!
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
+
+<br />
+<br />
+
+<br />
+<br />
+<a href="@Url.Action("Index", "ProductsView")" class="btn btn-info btn-sm">Back to Product List</a>
+
+
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="fbe1ecba97be43f7b35a581ed095e7ea" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="ABCosmeticModel.Category" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABCosmeticModel.Order" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABCosmeticModel.Order_Detail" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABCosmeticModel.Product" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABCosmeticModel.Store" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ABCosmeticModel.User" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="ABCosmeticModel.fk_product_category" ManuallyRouted="false" />
+        <AssociationConnector Association="ABCosmeticModel.fk_order_staff" ManuallyRouted="false" />
+        <AssociationConnector Association="ABCosmeticModel.fk_orderdetails_order" ManuallyRouted="false" />
+        <AssociationConnector Association="ABCosmeticModel.fk_orderdetails_product" ManuallyRouted="false" />
+        <AssociationConnector Association="ABCosmeticModel.fk_staff_store" ManuallyRouted="false" />
+        <AssociationConnector Association="ABCosmeticModel.fk_Order_Store" />
+        <EntityTypeShape EntityType="ABCosmeticModel.ViewOrder" Width="1.5" PointX="7.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ABCosmetic.Models.ViewOrder>
+
+@{
+                /**/
+
+                ViewBag.Title = "WaitingOrderList";
+                Layout = "~/Views/Layout/_StaffLayout.cshtml";
+}
+
+<h2>Waiting Order List</h2>
+
+@if (Model.Count() == 0)
+{
+    <h2>There are no waiting orders!</h2>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                Customer
+            </th>
+            <th>
+                Staff
+            </th>
+            <th>
+                Store
+            </th>
+            <th>
+                Order date
+            </th>
+            <th>
+                Purchase date
+            </th>
+            <th>
+                Total Payment
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Customer_Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Fullname)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Address)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Date)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CheckoutDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Total_Payment)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Status)
+    </td>
+    <td>
+        <a href="@Url.Action("Edit", "Orders", new {id = item.ID })" class="btn btn-info btn-sm">Register Payment</a>
+    </td>
+</tr>
+}
+
+    </table>
+}
+

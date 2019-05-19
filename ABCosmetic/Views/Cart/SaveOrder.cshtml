@@ -1,0 +1,72 @@
+﻿@model ABCosmetic.Models.Order
+
+@{
+    ViewBag.Title = "SaveOrder";
+    Layout = "~/Views/Layout/_StaffLayout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h2>Save Order</h2>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        Staff: @Session["Fullname"]
+        <div class="col-md-10">
+            @Html.HiddenFor(model => model.Staff_ID, new { Value = Session["Staff ID"] })
+            @Html.ValidationMessageFor(model => model.Staff_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        Store: @Session["Store Address"]
+        <div class="col-md-10">
+            @Html.HiddenFor(model => model.Store_ID, new { Value = Session["Store ID"] })
+            @Html.ValidationMessageFor(model => model.Store_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        Date: @Session["DateTime"]
+        <div class="col-md-10">
+            @Html.HiddenFor(model => model.Date, new { Value = DateTime.Now.ToShortDateString() })
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        Customer Name:
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Customer_Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Customer_Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        Total Payment: $ @String.Format("{0:0,0}", Session["Payment"])
+        <div class="col-md-10">
+            @Html.HiddenFor(model => model.Total_Payment, new { Value = Session["Payment"] })
+            @Html.ValidationMessageFor(model => model.Total_Payment, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+            @Html.HiddenFor(model => model.Status, new { Value = "Waiting" })
+            @*@Html.HiddenFor(model => model.CheckoutDate, new { Value = "Waiting" })*@
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Save Order" class="btn btn-primary btn-sm" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <a href="@Url.Action("Cart", "Cart")" class="btn btn-info btn-sm">Back to Cart</a>
+        </div>
+    </div>
+</div>
+}
+

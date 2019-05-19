@@ -1,0 +1,114 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ABCosmetic.Models.ViewOrder>
+
+@{
+    ViewBag.Title = "StaffReport";
+    Layout = "~/Views/Layout/_StaffLayout.cshtml";
+}
+
+<link href="/Content/PagedList.css" rel="stylesheet" />
+
+<h2>Order List</h2>
+
+@using (Html.BeginForm("StaffOrder", "ViewOrders", FormMethod.Get))
+{
+    <table class="table table-borderless">
+        <tr>
+            <td>
+                From: @Html.TextBox("startdate", "", new { @type = "date", @style = "width: 50%" })
+            </td>
+            <td>
+                To: @Html.TextBox("enddate", "", new { @type = "date", @style = "width: 50%" })
+            </td>
+            <td>
+                <input type="submit" name="submit" value="Search" class="btn btn-info btn-sm" />
+            </td>
+            <td>
+                <a href="@Url.Action("StaffOrder", "ViewOrders", new { staffName = Session["staff-order"] })" class="btn btn-info btn-sm">Refresh</a>
+            </td>
+        </tr>
+    </table>
+}
+
+@if (Model.Count() == 0)
+{
+    <h2>Orders not found!</h2>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                Customer Name
+            </th>
+            <th>
+                Staff Name
+            </th>
+            <th>
+                Store Address
+            </th>
+            <th>
+                Order Date
+            </th>
+            <th>
+                Purchase Date
+            </th>
+            <th>
+                Total Payment
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckoutDate)
+                </td>
+                <td>
+                    $ @Html.DisplayFor(modelItem => item.Total_Payment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <a href="@Url.Action("StaffOrderDetails", "ViewOrders", new { id = item.ID })" class="btn btn-info btn-sm">Details</a>
+                </td>
+            </tr>
+        }
+        <tr>
+    </table>
+
+    <br />
+    <span><b>Number of Orders: </b>@ViewBag.TotalOrder</span>
+    <br />
+    <span><b>Total Revenue: $</b>@String.Format("{0:0,0}", ViewBag.TotalRevenue)</span>
+
+    <div>
+        @Html.PagedListPager(Model, pageNumber => Url.Action("StaffOrder", new
+        {
+            pageNumber,
+            startdate = Request.QueryString["startdate"],
+            enddate = Request.QueryString["enddate"],
+            staffName = Session["staff-order"]
+        }))
+    </div>
+
+}
+

@@ -1,0 +1,165 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<ABCosmetic.Models.ViewOrder>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/_ManagerLayout.cshtml";
+}
+
+<link href="/Content/PagedList.css" rel="stylesheet" />
+
+<h2>Order List</h2>
+
+@using (Html.BeginForm("Index", "ViewOrders", FormMethod.Get))
+{
+    <table class="table table-borderless">
+        <tr>
+            <td>
+                <b>Search Option</b>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                @Html.RadioButton("option", "Store") <text>Store</text>
+                @Html.RadioButton("option", "Staff") <text>Staff</text>
+                @Html.RadioButton("option", "Customer") <text>Customer</text>
+            </td>
+            <td colspan="2">
+                @Html.TextBox("search", "", new { @style = "width: 95%" })
+            </td>
+            <td>
+                <input type="submit" name="submit" value="Search" class="btn btn-info btn-sm" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <text>Including Order Date </text> @Html.RadioButton("dateoption", "Date")
+            </td>
+            <td>
+                From: @Html.TextBox("startdate", "", new { @type = "date", @style = "width: 70%" })
+            </td>
+            <td>
+                To: @Html.TextBox("enddate", "", new { @type = "date", @style = "width: 70%" })
+            </td>
+            <td>
+                <a href="@Url.Action("Index", "ViewOrders")" class="btn btn-info btn-sm">Refresh</a>
+            </td>
+        </tr>
+    </table>
+}
+
+@if (Model.Count() == 0)
+{
+    <h2>Orders not found!</h2>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.ActionLink("Customer", "Index", new
+                {
+                    sort = ViewBag.SortByCustomer,
+                    option = Request.QueryString["option"],
+                    search = Request.QueryString["search"]
+                })
+            </th>
+            <th>
+                @Html.ActionLink("Staff", "Index", new
+                {
+                    sort = ViewBag.SortByStaff,
+                    option = Request.QueryString["option"],
+                    search = Request.QueryString["search"]
+                })
+            </th>
+            <th>
+                @Html.ActionLink("Store", "Index", new
+                {
+                    sort = ViewBag.SortByStore,
+                    option = Request.QueryString["option"],
+                    search = Request.QueryString["search"]
+                })
+            </th>
+            <th>
+                @Html.ActionLink("Order Date", "Index", new
+                {
+                    sort = ViewBag.SortByDate,
+                    option = Request.QueryString["option"],
+                    search = Request.QueryString["search"]
+                })
+            </th>
+            <th>
+                @Html.ActionLink("Purchase Date", "Index", new
+                {
+                    sort = ViewBag.SortByPDate,
+                    option = Request.QueryString["option"],
+                    search = Request.QueryString["search"]
+                })
+            </th>
+            <th>
+                @Html.ActionLink("Payment", "Index", new
+                {
+                    sort = ViewBag.SortByPayment,
+                    option = Request.QueryString["option"],
+                    search = Request.QueryString["search"]
+                })
+            </th>
+            <th>
+                @Html.ActionLink("Status", "Index", new
+                {
+                    sort = ViewBag.SortByStatus,
+                    option = Request.QueryString["option"],
+                    search = Request.QueryString["search"]
+                })
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckoutDate)
+                </td>
+                <td>
+                    $ @Html.DisplayFor(modelItem => item.Total_Payment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <a href="@Url.Action("OrderDetails", "ViewOrders", new { id = item.ID })" class="btn btn-info btn-sm">Details</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+<div>
+    @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new
+    {
+        pageNumber,
+        option = Request.QueryString["option"],
+        dateoption = Request.QueryString["dateoption"],
+        search = Request.QueryString["search"],
+        sort = Request.QueryString["sort"],
+        startdate = Request.QueryString["startdate"],
+        enddate = Request.QueryString["enddate"]
+    }))
+</div>

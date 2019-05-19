@@ -1,0 +1,75 @@
+﻿@model ABCosmetic.Models.Order
+
+@{
+    ViewBag.Title = "RegisterPayment";
+    Layout = "~/Views/Layout/_StaffLayout.cshtml";
+}
+
+<h2>RegisterPayment</h2>
+
+<div>
+    <h4>Order</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total_Payment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total_Payment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckoutDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckoutDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Fullname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.Fullname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Store.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Store.Address)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
